@@ -1,4 +1,4 @@
-import { ShoppingCart } from "lucide-react";
+import { Phone, ShoppingCart } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import Logo from "./Logo";
 import Link from "next/link";
@@ -42,9 +42,12 @@ function Header() {
                 3
               </span>
             </div>
-            <span className="ml-6">
-              +91-8192913570
-            </span>
+            <div className="flex ml-6 space-x-2">
+              <Phone />
+              <span>
+                +91-8192913570
+              </span>
+            </div>
             <Button className="color-primary">Logout</Button>
           </div>
         </div>
