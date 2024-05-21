@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import pizzaImg from '../../../public/pizza-main.png';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ProductCard from "@/components/custom/ProductCard";
+import ProductCard from "@/components/custom/home/ProductCard";
 
 export default function Home() {
   return (
@@ -29,16 +29,16 @@ export default function Home() {
         </div>
       </div>
       <div className="container my-6">
-      <Tabs defaultValue="account" className="w-[400px]">
+      <Tabs defaultValue="account">
         <TabsList>
           <TabsTrigger className="font-bold" value="account">Pizza</TabsTrigger>
           <TabsTrigger className="font-bold" value="password">Beverages</TabsTrigger>
         </TabsList>
-        <TabsContent value="account" className="flex flex-wrap">
+        <TabsContent value="account" className="flex gap-2 justify-between flex-wrap">
           <ProductCard />
           <ProductCard />
-          {/* <ProductCard />
-          <ProductCard /> */}
+          <ProductCard />
+          <ProductCard />
         </TabsContent>
         <TabsContent value="password">Change your password here.</TabsContent>
       </Tabs>
