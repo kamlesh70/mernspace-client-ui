@@ -9,7 +9,7 @@ function Header() {
   return (
     <header className="bg-white">
       <nav className="container py-5">
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-wrap">
           <div className="flex items-center space-x-4">
             <Logo />
             <Select>

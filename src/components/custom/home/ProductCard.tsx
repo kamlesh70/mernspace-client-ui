@@ -1,11 +1,11 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
-import pizzaImage from "../../../public/pizza-main.png";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../ui/card";
+import pizzaImage from "../../../../public/pizza-main.png";
 import Image from "next/image";
-import { Button } from "../ui/button";
+import ProductModal from "./ProductModal";
 
 function ProductCard() {
   return (
-    <Card className="w-80">
+    <Card className="w-72">
       <CardHeader className="items-center">
         <Image alt="product image" height={120} width={120} src={pizzaImage} />
       </CardHeader>
@@ -16,7 +16,7 @@ function ProductCard() {
       <CardFooter>
         <div className="w-full flex justify-between">
           <p>From <span className="font-bold">500</span></p>
-          <Button>Choose</Button>
+          <ProductModal />
         </div>
       </CardFooter>
     </Card>
