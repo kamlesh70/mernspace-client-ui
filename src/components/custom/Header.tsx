@@ -3,9 +3,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import Logo from "./Logo";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { Tenant } from "@/lib/types";
 
 
-function Header() {
+async function Header() {
+
+  const fetchTenants = await fetch(`${process.env.BACKEND_URL}/api/auth/tenant?limit=100`,
+    {
+      next: {
+        revalidate: 3600, // 1 hour
+      }
+    }
+  )
+
+  if(!fetchTenants?.ok){
+    throw new Error("failed to fetch tenant information");
+  }
+
+  const tenants : { tenants: Tenant[] } = await fetchTenants.json();
+
   return (
     <header className="bg-white">
       <nav className="container py-5">
@@ -14,12 +30,16 @@ function Header() {
             <Logo />
             <Select>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Theme" />
+              <SelectValue placeholder={ tenants.tenants[0].name } />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
+              {
+                tenants.tenants.map((tenant) => (
+                  <SelectItem key={tenant.id} value={tenant.id}>
+                    {tenant.name}
+                  </SelectItem>
+                ))
+              }
             </SelectContent>
           </Select>
           </div> 

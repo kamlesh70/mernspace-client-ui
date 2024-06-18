@@ -1,27 +1,34 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../ui/card";
-import pizzaImage from "../../../../public/pizza-main.png";
-import Image from "next/image";
-import ProductModal from "./ProductModal";
+import Image from 'next/image';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import React from 'react';
 
-function ProductCard() {
-  return (
-    <Card className="w-72">
-      <CardHeader className="items-center">
-        <Image alt="product image" height={120} width={120} src={pizzaImage} />
-      </CardHeader>
-      <CardContent className="w-full">
-        <p className="font-bold">Pizza Name</p>
-        <p className="text-sm">pizza description will come here!</p>
-      </CardContent>
-      <CardFooter>
-        <div className="w-full flex justify-between">
-          <p>From <span className="font-bold">500</span></p>
-          <ProductModal />
-        </div>
-      </CardFooter>
-    </Card>
+import { Product } from '@/lib/types';
+import { getFromPrice } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+// import ProductModal from './ProductModal';
 
-  )
-}
+type PropTypes = { product: Product };
+
+const ProductCard = ({ product }: PropTypes) => {
+    return (
+        <Card className="border-none rounded-xl">
+            <CardHeader className="flex items-center justify-center">
+                <Image alt="pizza-image" width={150} height={150} src={product.image} />
+            </CardHeader>
+            <CardContent>
+                <h2 className="text-lg font-bold">{product.name}</h2>
+                <p className="mt-2">{product.description}</p>
+            </CardContent>
+            <CardFooter className="flex items-center justify-between mt-2">
+                <p>
+                    <span>Start From </span>
+                    <span className="font-bold">₹{getFromPrice(product)}</span>
+                </p>
+
+                {/* <ProductModal product={product} /> */}
+            </CardFooter>
+        </Card>
+    );
+};
 
 export default ProductCard;
