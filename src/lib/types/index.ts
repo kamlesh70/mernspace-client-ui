@@ -21,7 +21,7 @@ export interface Attribute {
 export interface Category {
   _id: string;
   name: string;
-  priceConfiguration: PriceConfiguration;
+  priceConfigurations: PriceConfiguration;
   attributes: Attribute[];
 }
 
@@ -44,8 +44,8 @@ export type Product = {
   name: string;
   image: string;
   description: string;
-  category: Category;
-  priceConfiguration: ProductPriceConfiguration;
+  categoryId: Category;
+  priceConfigurations: ProductPriceConfiguration;
   attributes: ProductAttribute[];
   isPublish: boolean;
   createdAt: string;
