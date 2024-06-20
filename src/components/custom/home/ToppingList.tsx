@@ -18,7 +18,7 @@ const ToppingList = ({
             const toppingResponse = await fetch(
                 `${
                     process.env.NEXT_PUBLIC_BACKEND_URL
-                }/api/catalog/toppings?tenantId=${searchParams.get('restaurantId')}`
+                }/api/catalog/topping?tenantId=1`
             );
             const toppings = await toppingResponse.json();
             setToppings(toppings);

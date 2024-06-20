@@ -4,8 +4,7 @@ import React from 'react';
 
 import { Product } from '@/lib/types';
 import { getFromPrice } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-// import ProductModal from './ProductModal';
+import ProductModal from './ProductModal';
 
 type PropTypes = { product: Product };
 
@@ -25,7 +24,7 @@ const ProductCard = ({ product }: PropTypes) => {
                     <span className="font-bold">₹{getFromPrice(product)}</span>
                 </p>
 
-                {/* <ProductModal product={product} /> */}
+                <ProductModal product={product} />
             </CardFooter>
         </Card>
     );
