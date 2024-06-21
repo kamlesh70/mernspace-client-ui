@@ -4,6 +4,7 @@ import Logo from "./Logo";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Tenant } from "@/lib/types";
+import Cart from "./home/Cart";
 
 
 async function Header() {
@@ -56,12 +57,7 @@ async function Header() {
                 </Link>
               </li>
             </ul>
-            <div className="relative">
-              <ShoppingCart className="hover:text-primary font-medium"/>
-              <span className="absolute -top-4 left-6 bg-primary rounded-full py-0.5 px-2.5 text-white">
-                3
-              </span>
-            </div>
+            <Cart />  
             <div className="flex ml-6 space-x-2">
               <Phone />
               <span>
