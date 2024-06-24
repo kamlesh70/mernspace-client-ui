@@ -2,10 +2,8 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 import pizzaImg from '../../../public/pizza-main.png';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ProductCard from "@/components/custom/home/ProductCard";
-import ProductList from "@/components/custom/home/ProductList";
 import { Suspense } from "react";
+import ProductList from "./components/ProductList";
 
 export default function Home() {
   return (

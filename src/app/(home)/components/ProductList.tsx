@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 import { Category, Product } from "@/lib/types";
-import ProductCard from "./ProductCard";
+import ProductCard from "../../../app/(home)/components/ProductCard";
 
 const ProductList = async ({
   searchParams,

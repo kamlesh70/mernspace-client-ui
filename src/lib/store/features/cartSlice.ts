@@ -1,36 +1,73 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { Product, Topping } from '@/lib/types';
+import { hashTheItem } from '@/lib/utils';
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-export interface CounterState {
-  value: number
+export interface CartItem extends Pick<Product, '_id' | 'name' | 'image' | 'priceConfigurations'> {
+    chosenConfigurations: {
+        priceConfigurations: {
+            [key: string]: string;
+        };
+        selectedToppings: Topping[];
+    };
+    qty: number;
+    hash?: string;
+}
+export interface CartState {
+    cartItems: CartItem[];
 }
 
-const initialState: CounterState = {
-  value: 0,
-}
+const initialState: CartState = {
+    cartItems: [],
+};
 
-export const counterSlice = createSlice({
-  name: 'counter',
-  initialState,
-  reducers: {
-    increment: (state) => {
-      console.log("increment", state)
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1
+export const cartSlice = createSlice({
+    name: 'cart',
+    initialState,
+    reducers: {
+        addToCart: (state, action: PayloadAction<CartItem>) => {
+            const hash = hashTheItem(action.payload);
+            const newItem = {
+                ...action.payload,
+                hash: hash,
+            };
+
+            window.localStorage.setItem('cartItems', JSON.stringify([...state.cartItems, newItem]));
+            return {
+                cartItems: [...state.cartItems, newItem],
+            };
+        },
+        setInitialCartItems: (state, action: PayloadAction<CartItem[]>) => {
+            state.cartItems.push(...action.payload);
+        },
+        changeQty: (state, action: PayloadAction<{ hash: string; qty: number }>) => {
+            const index = state.cartItems.findIndex((item) => item.hash === action.payload.hash);
+
+            if (action.payload.qty === 0) {
+                state.cartItems.splice(index, 1);
+                window.localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+                return;
+            }
+            // 1 , -1
+            // 0 -> 1 = 1
+            // 1 -> -1 1 + -1 = 0
+            state.cartItems[index].qty = Math.max(
+                1,
+                state.cartItems[index].qty + action.payload.qty
+            );
+
+            window.localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+        },
+        clearCart: () => {
+            window.localStorage.setItem('cartItems', JSON.stringify([]));
+            return {
+                cartItems: [],
+            };
+        },
     },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload
-    },
-  },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { addToCart, setInitialCartItems, changeQty, clearCart } = cartSlice.actions;
 
-export default counterSlice.reducer
+export default cartSlice.reducer;
