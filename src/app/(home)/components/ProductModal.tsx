@@ -8,6 +8,9 @@ import React, { startTransition, Suspense, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Product, Topping } from "@/lib/types";
 import { Label } from "@/components/ui/label";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
+import { hashTheItem } from "@/lib/utils";
+import { addToCart, CartItem } from "@/lib/store/features/cartSlice";
 import ToppingList from "./ToppingList";
 
 const SucessToast = () => {
@@ -24,12 +27,11 @@ type ChosenConfig = {
   [key: string]: string;
 };
 const ProductModal = ({ product }: { product: Product }) => {
-  // const { toast } = useToast();
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  // const cartItems = useAppSelector((state) => state.cart.cartItems);
-  // const dispatch = useAppDispatch();
+  const cartItems = useAppSelector((state) => state.cart.cartItems);
+  const dispatch = useAppDispatch();
 
   const defaultConfiguration = Object.entries(
     product.categoryId.priceConfigurations
@@ -60,22 +62,22 @@ const ProductModal = ({ product }: { product: Product }) => {
     return configPricing + toppingsTotal;
   }, [chosenConfig, selectedToppings, product]);
 
-  // const alreadyHasInCart = React.useMemo(() => {
-  //   const currentConfiguration = {
-  //     _id: product._id,
-  //     name: product.name,
-  //     image: product.image,
-  //     priceConfiguration: product.priceConfigurations,
-  //     chosenConfiguration: {
-  //       priceConfiguration: { ...chosenConfig },
-  //       selectedToppings: selectedToppings,
-  //     },
-  //     qty: 1,
-  //   };
+  const alreadyHasInCart = React.useMemo(() => {
+    const currentConfiguration: CartItem = {
+      _id: product._id,
+      name: product.name,
+      image: product.image,
+      priceConfigurations: product.priceConfigurations,
+      chosenConfigurations: {
+        priceConfigurations: { ...chosenConfig },
+        selectedToppings: selectedToppings,
+      },
+      qty: 1,
+    };
 
-  //   const hash = hashTheItem(currentConfiguration);
-  //   return cartItems.some((item) => item.hash === hash);
-  // }, [product, chosenConfig, selectedToppings, cartItems]);
+    const hash = hashTheItem(currentConfiguration);
+    return cartItems.some((item) => item.hash === hash);
+  }, [product, chosenConfig, selectedToppings, cartItems]);
 
   const handleCheckBoxCheck = (topping: Topping) => {
     const isAlreadyExists = selectedToppings.some(
@@ -94,26 +96,26 @@ const ProductModal = ({ product }: { product: Product }) => {
     });
   };
 
-  // const handleAddToCart = (product: Product) => {
-  //   const itemToAdd: CartItem = {
-  //     _id: product._id,
-  //     name: product.name,
-  //     image: product.image,
-  //     priceConfiguration: product.priceConfiguration,
-  //     chosenConfiguration: {
-  //       priceConfiguration: chosenConfig!,
-  //       selectedToppings: selectedToppings,
-  //     },
-  //     qty: 1,
-  //   };
-  //   dispatch(addToCart(itemToAdd));
-  //   setSelectedToppings([]);
-  //   setDialogOpen(false);
-  //   toast({
-  //     // @ts-ignore
-  //     title: <SucessToast />,
-  //   });
-  // };
+  const handleAddToCart = (product: Product) => {
+    const itemToAdd: CartItem = {
+      _id: product._id,
+      name: product.name,
+      image: product.image,
+      priceConfigurations: product.priceConfigurations,
+      chosenConfigurations: {
+        priceConfigurations: chosenConfig!,
+        selectedToppings: selectedToppings,
+      },
+      qty: 1,
+    };
+    dispatch(addToCart(itemToAdd));
+    setSelectedToppings([]);
+    setDialogOpen(false);
+    // toast({
+    //   // @ts-ignore
+    //   title: <SucessToast />,
+    // });
+  };
 
   const handleRadioChange = (key: string, data: string) => {
     startTransition(() => {
@@ -133,8 +135,8 @@ const ProductModal = ({ product }: { product: Product }) => {
           <div className="w-1/3 bg-white rounded p-8 flex items-center justify-center">
             <Image
               src={product.image}
-              width={400}
-              height={400}
+              width={450}
+              height={450}
               alt={product.name}
             />
           </div>
@@ -178,9 +180,7 @@ const ProductModal = ({ product }: { product: Product }) => {
               }
             )}
 
-            {/* todo: make this condition dynamic (Add hasToppings field in category document. (Backend))  */}
-            {/* {This solution is not scalable!!!} */}
-            {product.categoryId.name.toLowerCase().indexOf('pizza') !== -1 && (
+            {product.categoryId?.name?.toLowerCase()?.indexOf("pizza") !== -1 && (
               <Suspense fallback={"Toppings loading..."}>
                 <ToppingList
                   selectedToppings={selectedToppings}
@@ -193,14 +193,13 @@ const ProductModal = ({ product }: { product: Product }) => {
               <span className="font-bold">₹{totalPrice}</span>
 
               <Button
-              // className={alreadyHasInCart ? "bg-gray-700" : "bg-primary"}
-              // disabled={alreadyHasInCart}
-              // onClick={() => handleAddToCart(product)}
+                className={alreadyHasInCart ? "bg-gray-700" : "bg-primary"}
+                disabled={alreadyHasInCart}
+                onClick={() => handleAddToCart(product)}
               >
                 <ShoppingCart size={20} />
                 <span className="ml-2">
-                  {/* {alreadyHasInCart ? "Already in cart" : "Add to cart"} */}
-                  Add to cart
+                  {alreadyHasInCart ? "Already in cart" : "Add to cart"}
                 </span>
               </Button>
             </div>

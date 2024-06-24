@@ -4,7 +4,9 @@ import Logo from "./Logo";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Tenant } from "@/lib/types";
-import Cart from "./home/Cart";
+import dynamic from "next/dynamic";
+
+const CartCounterWithoutSSR = dynamic(() => import('./CartCounter'), { ssr: false });
 
 
 async function Header() {
@@ -57,7 +59,7 @@ async function Header() {
                 </Link>
               </li>
             </ul>
-            <Cart />  
+            <CartCounterWithoutSSR />  
             <div className="flex ml-6 space-x-2">
               <Phone />
               <span>
