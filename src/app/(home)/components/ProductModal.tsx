@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { hashTheItem } from "@/lib/utils";
 import { addToCart, CartItem } from "@/lib/store/features/cartSlice";
 import ToppingList from "./ToppingList";
+import { useToast } from "@/components/ui/use-toast";
 
 const SucessToast = () => {
   return (
@@ -28,6 +29,7 @@ type ChosenConfig = {
 };
 const ProductModal = ({ product }: { product: Product }) => {
 
+  const { toast } = useToast();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const cartItems = useAppSelector((state) => state.cart.cartItems);
@@ -111,10 +113,10 @@ const ProductModal = ({ product }: { product: Product }) => {
     dispatch(addToCart(itemToAdd));
     setSelectedToppings([]);
     setDialogOpen(false);
-    // toast({
-    //   // @ts-ignore
-    //   title: <SucessToast />,
-    // });
+    toast({
+      // @ts-ignore
+      title: <SucessToast />,
+    });
   };
 
   const handleRadioChange = (key: string, data: string) => {

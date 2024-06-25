@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { Tenant } from "@/lib/types";
 import dynamic from "next/dynamic";
+import SelectTenant from "./SelectTenant";
 
 const CartCounterWithoutSSR = dynamic(() => import('./CartCounter'), { ssr: false });
 
@@ -31,20 +32,7 @@ async function Header() {
         <div className="flex justify-between flex-wrap">
           <div className="flex items-center space-x-4">
             <Logo />
-            <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder={ tenants.tenants[0].name } />
-            </SelectTrigger>
-            <SelectContent>
-              {
-                tenants.tenants.map((tenant) => (
-                  <SelectItem key={tenant.id} value={tenant.id}>
-                    {tenant.name}
-                  </SelectItem>
-                ))
-              }
-            </SelectContent>
-          </Select>
+            <SelectTenant tenants={tenants}/>
           </div> 
           <div className="flex gap-x-4 items-center">
             <ul className="flex space-x-4">
