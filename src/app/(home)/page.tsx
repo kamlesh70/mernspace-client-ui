@@ -5,7 +5,8 @@ import pizzaImg from '../../../public/pizza-main.png';
 import { Suspense } from "react";
 import ProductList from "./components/ProductList";
 
-export default function Home() {
+export default function Home({ searchParams }: { searchParams: { restaurantId: string } }) {
+
   return (
     <main>
       <div className="bg-white py-10">
@@ -30,7 +31,7 @@ export default function Home() {
       </div>
       <div className="container my-6">
         <Suspense fallback={'...Loading'}>
-          <ProductList searchParams={{ restaurantId: '1' }}/>
+          <ProductList searchParams={{ restaurantId: searchParams.restaurantId || '1' }}/>
         </Suspense>
       </div>
     </main>
