@@ -48,9 +48,6 @@ export const cartSlice = createSlice({
                 window.localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
                 return;
             }
-            // 1 , -1
-            // 0 -> 1 = 1
-            // 1 -> -1 1 + -1 = 0
             state.cartItems[index].qty = Math.max(
                 1,
                 state.cartItems[index].qty + action.payload.qty
