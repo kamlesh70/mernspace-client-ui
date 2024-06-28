@@ -1,7 +1,7 @@
 
-import { getSession } from '@/lib/session';
 import { redirect } from 'next/navigation';
 import CustomerForm from './components/customerForm';
+import { getSession } from '@/lib/session';
 
 export default async function Checkout({
     searchParams,

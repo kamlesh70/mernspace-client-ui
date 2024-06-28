@@ -1,5 +1,5 @@
 'use client';
-import { clearCart } from '@/lib/store/features/cart/cartSlice';
+import { clearCart } from '@/lib/store/features/cartSlice';
 import { useAppDispatch } from '@/lib/store/hooks';
 import React from 'react';
 

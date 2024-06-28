@@ -1,3 +1,5 @@
+import { CartItem } from "../store/features/cartSlice";
+
 export interface Tenant {
   id: string;
   name: string;
@@ -56,4 +58,33 @@ export type Topping = {
   name: string;
   price: number;
   image: string;
+};
+
+
+export type Address = {
+  text: string;
+  isDefault: boolean;
+};
+
+export type Customer = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  addresses: Address[];
+};
+
+export type CouponCodeData = {
+  code: string;
+  tenantId: string;
+};
+
+export type OrderData = {
+  cart: CartItem[];
+  couponCode: string;
+  tenantId: string;
+  customerId: string;
+  comment: string;
+  address: string;
+  paymentMode: string;
 };
