@@ -26,7 +26,7 @@ import {
 import OrderSummary from "./orderSummary";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { useSearchParams } from "next/navigation";
-import { clearCart } from "@/lib/store/features/cart/cartSlice";
+import { clearCart } from "@/lib/store/features/cartSlice";
 
 const formSchema = z.object({
   address: z.string({ required_error: "Please select an address." }),
