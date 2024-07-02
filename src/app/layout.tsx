@@ -3,8 +3,10 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/custom/Header";
-import StoreProvider from "@/lib/store/StoreProvider";
 import { Toaster } from "@/components/ui/toaster";
+import QueryProvider from "./providers/QueryProvider";
+import StoreProvider from "./providers/StoreProvider";
+import Refresher from "@/components/custom/refresher";
 
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 
@@ -20,17 +22,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(
+      <body
+        className={cn(
           "min-h-screen bg-background font-manrope antialiased",
           manrope.variable
-        )}>
-          <StoreProvider>
-            <Header />
-            <main>
-              {children}
-            </main>
-            <Toaster />
-          </StoreProvider>
+        )}
+      >
+        <QueryProvider>
+          <Refresher>
+            <StoreProvider>
+              <Header />
+              <main>{children}</main>
+              <Toaster />
+            </StoreProvider>
+          </Refresher>
+        </QueryProvider>
       </body>
     </html>
   );

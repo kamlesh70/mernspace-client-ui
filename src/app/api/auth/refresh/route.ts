@@ -2,13 +2,16 @@ import { cookies } from 'next/headers';
 import cookie from 'cookie';
 
 export async function POST() {
-    const response = await fetch(`${process.env.BACKEND_URL}/api/auth/auth/refresh`, {
-        method: 'POST',
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/api/auth/auth/refreshToken`,
+      {
+        method: "POST",
         headers: {
-            Authorization: `Bearer ${cookies().get('accessToken')?.value}`,
-            Cookie: `refreshToken=${cookies().get('refreshToken')?.value}`,
+          Authorization: `Bearer ${cookies().get("accessToken")?.value}`,
+          Cookie: `refreshToken=${cookies().get("refreshToken")?.value}`,
         },
-    });
+      }
+    );
 
     if (!response.ok) {
         console.log('Refresh failed.');

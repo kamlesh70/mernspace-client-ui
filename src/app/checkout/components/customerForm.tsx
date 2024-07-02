@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { createOrder, getCustomer } from "@/lib/http/api";
-import { Customer, OrderData } from "@/lib/types";
+import { Address, Customer, OrderData } from "@/lib/types";
 import AddAdress from "./addAddress";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -162,21 +162,21 @@ const CustomerForm = () => {
                                 onValueChange={field.onChange}
                                 className="grid grid-cols-2 gap-6 mt-2"
                               >
-                                {customer?.addresses.map((address) => {
+                                {customer?.address.map((address: Address) => {
                                   return (
-                                    <Card className="p-6" key={address.text}>
+                                    <Card className="p-6" key={address.address}>
                                       <div className="flex items-center space-x-2">
                                         <FormControl>
                                           <RadioGroupItem
-                                            value={address.text}
-                                            id={address.text}
+                                            value={address.address}
+                                            id={address.address}
                                           />
                                         </FormControl>
                                         <Label
-                                          htmlFor={address.text}
+                                          htmlFor={address.address}
                                           className="leading-normal"
                                         >
-                                          {address.text}
+                                          {address.address}
                                         </Label>
                                       </div>
                                     </Card>
