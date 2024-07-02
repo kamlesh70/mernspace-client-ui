@@ -62,7 +62,7 @@ export type Topping = {
 
 
 export type Address = {
-  text: string;
+  address: string;
   isDefault: boolean;
 };
 
@@ -71,7 +71,7 @@ export type Customer = {
   firstName: string;
   lastName: string;
   email: string;
-  addresses: Address[];
+  address: Address[];
 };
 
 export type CouponCodeData = {

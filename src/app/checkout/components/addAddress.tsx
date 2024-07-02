@@ -1,5 +1,5 @@
 import { LoaderCircle, Plus } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -41,7 +41,7 @@ const AddAdress = ({ customerId }: { customerId: string | undefined }) => {
 
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, error } = useMutation({
     mutationKey: ["address", customerId],
     mutationFn: async (address: string) => {
       // todo: put proper check on customerId.
@@ -53,6 +53,16 @@ const AddAdress = ({ customerId }: { customerId: string | undefined }) => {
       return queryClient.invalidateQueries({ queryKey: ["customer"] });
     },
   });
+
+  useEffect(() => {
+    if (error) {
+      console.log(error, "====================");
+      addressForm.setError("address", {
+        message:
+          (error as any)?.response?.data?.message || "Something went wrong !",
+      });
+    }
+  }, [error]);
 
   const handleAddressAdd = (e: React.FormEvent<HTMLFormElement>) => {
     e.stopPropagation();
